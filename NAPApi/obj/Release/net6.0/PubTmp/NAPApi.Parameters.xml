@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="napappp-001-site1" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Wesam_KH\\source\\repos\\NAPApi\\NAPApi\\obj\\Release\\net6\.0\\PubTmp\\Out\\$" />
+  </parameter>
+  <parameter name="NAPApi.Context.ApplicationDbContext" description="" value="Data Source=SQL8002.site4now.net;Initial Catalog=db_a90ce1_napappp;User Id=db_a90ce1_napappp_admin;Password=NetworkApp@204" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\Wesam_KH\\source\\repos\\NAPApi\\NAPApi\\obj\\Release\\net6\.0\\PubTmp\\EFSQLScripts\\NAPApi\.Context\.ApplicationDbContext\.sql$" />
+  </parameter>
+</parameters>
