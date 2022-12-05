@@ -6,7 +6,7 @@ namespace NAPApi.Help
         
         public async Task<string> SaveFile(IFormFile file , string pathFile)
         {
-            if(file.Length > 0)
+            if(file.Length >= 0)
             {
                 try
                 {
@@ -26,10 +26,10 @@ namespace NAPApi.Help
                 }
                 catch (Exception ex)
                 {
-                    return null;
+                    return string.Empty;
                 }
             }
-            return null;
+            return string.Empty;
         }
 
         public bool DeleteImage(string path)

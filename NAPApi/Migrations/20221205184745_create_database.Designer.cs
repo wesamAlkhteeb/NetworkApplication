@@ -12,7 +12,7 @@ using NAPApi.Context;
 namespace NAPApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221126202257_create-database")]
+    [Migration("20221205184745_create_database")]
     partial class createdatabase
     {
         /// <inheritdoc />
@@ -133,17 +133,16 @@ namespace NAPApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportId"));
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("FileId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ReportLockDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReportUnLockDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReportUpdateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

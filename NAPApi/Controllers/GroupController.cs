@@ -38,7 +38,10 @@ namespace NAPApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var result = groupRepository.addGroup(groupModel.GroupName, SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]));
+            var result = groupRepository.addGroup(
+                        groupModel.GroupName, 
+                        SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]),
+                        SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]));
             
             return Ok(result);
         }
@@ -52,6 +55,40 @@ namespace NAPApi.Controllers
             }
             var result = groupRepository.deleteGroup(groupModel.GroupId, SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]));
             return Ok(result);
+        }
+
+
+
+        [HttpPost("GrantPermissionGroup")]
+        public IActionResult GrantPermission([FromHeader] string Authorization, [FromBody] GrantPermessionModel Model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = groupRepository.GrantPermission(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , Model.IdGroup , Model.UserName);
+            return Ok(result);
+        }
+
+        [HttpPost("NoGrantPermissionGroup")]
+        public IActionResult NoGrantPermission([FromHeader] string Authorization, [FromBody] NoGrantPermessionModel Model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = groupRepository.NoGrantPermission(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , Model.IDGroup , Model.IdUserFriend);
+            return Ok(result);
+        }
+
+        [HttpGet("showUsersPermission")]
+        public List<UserPermessionGroup> FetchUserPermission([FromHeader] string Authorization , int IDGroup , int Page)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new List<UserPermessionGroup>();
+            }
+            return groupRepository.FetchUserPermession(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , IDGroup , Page);
         }
 
     }

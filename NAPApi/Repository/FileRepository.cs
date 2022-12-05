@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using static System.Net.WebRequestMethods;
 using System.Net;
+using NAPApi.state;
 
 namespace NAPApi.Repository
 {
@@ -43,13 +44,22 @@ namespace NAPApi.Repository
             {
                 return "error in save image";
             }
-            applicationDbContext.files.Add(new Files
+            var file = applicationDbContext.files.Add(new Files
             {
                 FileCreateDate = DateTime.Now,
                 FileName = fileData.FileName,
                 GroupId = fileData.IdGroup,
                 FilePath = path,
                 FileIdUses = -1
+            });
+            
+            applicationDbContext.SaveChanges();
+            applicationDbContext.reports.Add(new Report
+            {
+                Date= DateTime.Now,
+                FileId = file.Entity.FilesId,
+                State = new AddStateReport().getState(),
+                UserId = idUser
             });
             applicationDbContext.SaveChanges();
             return "Added successfully";
@@ -203,11 +213,30 @@ namespace NAPApi.Repository
                     return false;
                 }
                 Record[0].FileIdUses = idUser;
+                applicationDbContext.reports.Add(new Report
+                {
+                    Date = DateTime.Now,
+                    FileId = Record[0].FilesId,
+                    State = new LockStateReport().getState(),
+                    UserId = idUser
+                });
             }
             else
             {
+                if (Record[0].FileIdUses == -1)
+                {
+                    return false;
+                }
                 Record[0].FileIdUses = -1;
+                applicationDbContext.reports.Add(new Report
+                {
+                    Date = DateTime.Now,
+                    FileId = Record[0].FilesId,
+                    State = new UnLockStateReport().getState(),
+                    UserId = idUser
+                });
             }
+            
             applicationDbContext.SaveChanges();
             return true;
         }
@@ -217,18 +246,29 @@ namespace NAPApi.Repository
             var file = (from pr in applicationDbContext.permessionsGroups
                                        join fl in applicationDbContext.files
                                        on pr.GroupId equals fl.GroupId
-                                       where pr.PermessionsGroupSharedId == idUser && fl.FilesId == filesRequestUpdateModel.FileID && fl.FileIdUses == idUser
+                                       where pr.PermessionsGroupSharedId == idUser && 
+                                       fl.FilesId == filesRequestUpdateModel.FileID && 
+                                       fl.FileIdUses == idUser
                                        select new
                                        {
-                                           FilePath = fl.FilePath
+                                           FilePath = fl.FilePath,
+                                           FileId = fl.FilesId
                                        }
                           ).ToList();
 
             
             if (file.Count() ==0 || !await FileHelper.UpdateFile(file[0].FilePath, filesRequestUpdateModel.File))
             {
-                return "can't update ,the file is not exists or no allow to update";
+                return "can't update ,the file is not exists or no allow to update" +idUser + " " + filesRequestUpdateModel.FileID ;
             }
+            applicationDbContext.reports.Add(new Report
+            {
+                Date = DateTime.Now,
+                FileId = file[0].FileId,
+                State = new UpdateStateReport().getState(),
+                UserId = idUser
+            });
+            applicationDbContext.SaveChanges();
             return "Update successfully";
         }
     }

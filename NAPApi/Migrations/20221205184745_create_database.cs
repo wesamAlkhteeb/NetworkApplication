@@ -136,9 +136,8 @@ namespace NAPApi.Migrations
                 {
                     ReportId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ReportLockDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReportUnLockDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReportUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FileId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
