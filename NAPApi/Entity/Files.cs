@@ -8,8 +8,17 @@ namespace NAPApi.Entity
         [MaxLength(60)]
         public string FileName { get; set; }
         public string FilePath { get; set; }
+
         public int FileIdUses { get; set; }
         public DateTime FileCreateDate { get; set; }
+
+        // concurrency control optimitic concurrency
+        [Timestamp]
+        public byte[] Version { get; set; }
+
+
+
+        // update file ... where data = Verstion
 
         //navigator
 

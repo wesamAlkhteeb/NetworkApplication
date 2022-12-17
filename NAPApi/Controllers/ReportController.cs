@@ -20,10 +20,21 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            var reports = report.getReportByUser(Username);
-            return Ok(reports);
+            try
+            {
+                var reports = report.getReportByUser(Username);
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title","fetch is success" },
+                    {"reports" ,reports}
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
         
         [HttpGet("byfile")]
@@ -31,10 +42,21 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            var reports = report.getReportByFile(FileId);
-            return Ok(reports);
+            try
+            {
+                var reports = report.getReportByFile(FileId);
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title","fetch is success" },
+                    {"reports" ,reports}
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
     }

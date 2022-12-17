@@ -29,7 +29,7 @@ namespace NAPApi.Repository
                 Where(g => idUser == g.UserId && fileData.IdGroup == g.GroupId).ToList();
             if (canAdd.Count()==0)
             {
-                return "can't add file to this group";
+                throw new Exception("can't add file to this group");
             }
             var testHas = applicationDbContext.files.
                 Where(
@@ -37,12 +37,12 @@ namespace NAPApi.Repository
                          f.GroupId == fileData.IdGroup).Select(c => c.FilesId).ToList();
             if (testHas.Count()>0)
             {
-                return "can't added , rename file";
+                throw new Exception("can't added , rename file");
             }
             string path = await FileHelper.SaveFile(fileData.File , FileHelper.GenerateName(fileData.File));
             if(path == null)
             {
-                return "error in save image";
+                throw new Exception("error in save image");
             }
             var file = applicationDbContext.files.Add(new Files
             {
@@ -77,12 +77,11 @@ namespace NAPApi.Repository
 
             if (file.Count() >0)
             {
-                bool a = FileHelper.DeleteImage(file.First().FilePath);
                 applicationDbContext.files.Where(f => f.FilesId == idFile).ExecuteDelete();
                 applicationDbContext.SaveChanges();
                 return "Delete Successfully";
             }
-            return "Can't Delete File";
+            throw new Exception("error in save image");
         }
 
         public List<FilesModel> GetFiles (int idUser , int idGroup , string role , int page, string host)
@@ -134,13 +133,7 @@ namespace NAPApi.Repository
                           ).Skip((page - 1) * 10).Take((page - 1) * 10 + 10).ToList();
 
             if (files.Count > 0)
-            {/*
-                var files = applicationDbContext.files.Where(f => f.GroupId == idGroup).Select(f => new {
-                    FileName = f.FileName,
-                    FilePath = f.FilePath,
-                    FileId = f.FilesId,
-                    FileUses = f.FileIdUses
-                }).Skip((page - 1) * 10).Take((page - 1) * 10 + 10).ToList();*/
+            {
                 foreach (var file in files)
                 {
                     filesModels.Add(new FilesModel
@@ -159,7 +152,7 @@ namespace NAPApi.Repository
         {
             if (!Reservation(idUser,filesReservation))
             {
-                return "you can't allow to use this file or The file isn't exists.";
+                throw new Exception("you can't allow to use this file or The file isn't exists.");
             }
             return "the operation is success";
         }
@@ -184,7 +177,7 @@ namespace NAPApi.Repository
             catch(Exception e)
             {
                 transaction.Rollback();
-                return e.ToString();
+                throw new Exception(e.ToString());
             }
             return "Reservation done.";
         }
@@ -257,9 +250,14 @@ namespace NAPApi.Repository
                           ).ToList();
 
             
-            if (file.Count() ==0 || !await FileHelper.UpdateFile(file[0].FilePath, filesRequestUpdateModel.File))
+            if (file.Count() ==0 )
             {
-                return "can't update ,the file is not exists or no allow to update" +idUser + " " + filesRequestUpdateModel.FileID ;
+                throw new Exception("can't update, no allow to update.");
+                
+            }
+            if(!await FileHelper.UpdateFile(file[0].FilePath, filesRequestUpdateModel.File))
+            {
+                throw new Exception("can't update, the file is not exists. ");
             }
             applicationDbContext.reports.Add(new Report
             {

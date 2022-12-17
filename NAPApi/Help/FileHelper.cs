@@ -3,10 +3,10 @@ namespace NAPApi.Help
 {
     public class FileHelper
     {
-        
-        public async Task<string> SaveFile(IFormFile file , string pathFile)
+
+        public async Task<string> SaveFile(IFormFile file, string pathFile)
         {
-            if(file.Length >= 0)
+            if (file.Length >= 0)
             {
                 try
                 {
@@ -16,17 +16,17 @@ namespace NAPApi.Help
                         Directory.CreateDirectory(pathFolder);
                     }
                     string path = pathFolder + pathFile;
-                    Debug.WriteLine(path);
-                    using (FileStream fileStream  = new FileStream(path,FileMode.Create))
+                   
+                    using (FileStream fileStream = new FileStream(path, FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
                         fileStream.Flush();
                     }
-                    return "\\Uploads"+pathFile;
+                    return "\\Uploads" + pathFile;
                 }
                 catch (Exception ex)
                 {
-                    return string.Empty;
+                    throw new Exception(ex.Message);                    
                 }
             }
             return string.Empty;
@@ -34,25 +34,26 @@ namespace NAPApi.Help
 
         public bool DeleteImage(string path)
         {
-            
-            path = Directory.GetCurrentDirectory()  + path.Replace("/","\\");
+
+            path = Directory.GetCurrentDirectory() + path.Replace("/", "\\");
             if (File.Exists(path))
             {
                 File.Delete(path);
                 return true;
-            }else
+            }
+            else
             {
                 return false;
             }
-        } 
+        }
 
-        public async Task<bool> UpdateFile(string path , IFormFile file )
+        public async Task<bool> UpdateFile(string path, IFormFile file)
         {
             if (!DeleteImage(path))
             {
-                return false;
+                throw new Exception("not found any file");
             }
-            string name = "\\"+ path.Split("\\").Last();
+            string name = "\\" + path.Split("\\").Last();
             await SaveFile(file, name);
 
             return true;

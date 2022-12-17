@@ -2,8 +2,8 @@
 {
     public class ReportModel
     {
-        public int UserId { get; set; }
-        public int FileId { get; set; }
+        public string Username { get; set; }
+        public string NameFile { get; set; }
         public DateTime Date { get; set; }
         public string State { get; set; }
     }

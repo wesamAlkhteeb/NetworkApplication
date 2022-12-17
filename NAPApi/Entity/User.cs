@@ -14,6 +14,7 @@ namespace NAPApi.Entity
         public bool Confirm { get; set; }
 
         // navigation
+        
         public int RoleId { get; set; }
         public Role Role { get; set; }
         public List<Logging> Loggings { set; get; }

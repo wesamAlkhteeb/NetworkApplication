@@ -14,10 +14,9 @@ namespace NAPApi.Context
         public DbSet<Files> files { get; set; }
         public DbSet<Report> reports { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option):base(option)
-        {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option):base(option) {}
 
-        }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

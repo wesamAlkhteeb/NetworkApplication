@@ -5,18 +5,18 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Wesam_KH\source\repos\NAPApi\NAPApi\bin\Release\net6.0\publish\</_PublishTargetUrl>
-    <History>True|2022-12-03T07:14:38.5336390Z;</History>
+    <_PublishTargetUrl>F:\project com\asp\network_application\NAPApi\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2022-12-12T15:39:50.0771530Z;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
-    <DestinationConnectionStrings Include="LocalDb">
-      <Value>Data Source=%28localdb%29\ProjectModels%3bInitial Catalog=NAPApp%3bIntegrated Security=True%3b</Value>
+    <DestinationConnectionStrings Include="smartasp.net">
+      <Value>Data Source=SQL8003.site4now.net%3bInitial Catalog=db_a90ce1_napapp%3bUser Id=db_a90ce1_napapp_admin%3bPassword=wesam%40204%3b</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
   <ItemGroup>
     <EFMigrations Include="NAPApi.Context.ApplicationDbContext">
-      <Value>Data Source=%28localdb%29\ProjectModels%3bInitial Catalog=NAPApp%3bIntegrated Security=True%3b</Value>
+      <Value>Data Source=SQL8003.site4now.net%3bInitial Catalog=db_a90ce1_napapp%3bUser Id=db_a90ce1_napapp_admin%3bPassword=wesam%40204%3b</Value>
     </EFMigrations>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@ namespace NAPApi.Controllers
             this.applicationDbContext = applicationDbContext;
         }
 
+        [NonAction]
         [HttpPost("inital")]
         public IActionResult init()
         {

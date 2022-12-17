@@ -21,7 +21,7 @@ namespace NAPApi.Repository
                 Where(g => g.UserId == UserID && g.GroupName == GroupName).Select(c => new {id=c.GroupId}).ToList();
             if(searchReplicate.Count() > 0)
             {
-                return "fail to add. rename Group";
+                throw new Exception("fail to add. rename Group.");
             }
             Group group = new Group
             {
@@ -48,7 +48,7 @@ namespace NAPApi.Repository
             applicationDbContext.SaveChanges();
             if (role == "ADMIN")
             {
-                return;
+                throw new Exception("this Admin");
             }
             var AdminIDs = applicationDbContext.users.Where(u => u.RoleId == 2).Select(c => new { AdminID = c.Id }).ToList();
             foreach(var ad in AdminIDs)
@@ -69,19 +69,19 @@ namespace NAPApi.Repository
                 FirstOrDefault(g => g.GroupId == GroupId && g.GroupName != "Global" && g.UserId == UserId);
             if (group == null)
             {
-                return "Can't delete";
+                throw new Exception("Can't delete");
             }
             var isReversation = (from fl in applicationDbContext.files
                                  join gr in applicationDbContext.groups
                                     on fl.GroupId equals gr.GroupId
-                                 where fl.FileIdUses != -1
+                                 where fl.FileIdUses != -1 && GroupId== gr.GroupId
                                  select new
                                  {
                                      GroupId = gr.GroupId
                                  });
             if(isReversation.Count() >0)
             {
-                return "can't delete there are file is reservation";
+                throw new Exception("can't delete there are file is reservation");
             }
             applicationDbContext.groups.Remove(group);
             applicationDbContext.SaveChanges();
@@ -123,24 +123,25 @@ namespace NAPApi.Repository
             var user = (from gr in applicationDbContext.groups 
                         where gr.GroupId == IdGroup && gr.UserId == IdUser 
                         select gr.GroupId).ToList();
+            
             if( user.Count() == 0)
             {
-                return "You are not the owner of this group";
+                throw new Exception("You are not the owner of this group.");
             }
             var idUserFriend = (from ur in applicationDbContext.users
                                 where ur.Username == UserName
-                                select ur.RoleId).ToList();
+                                select ur.Id).ToList();
             if (idUserFriend.Count() == 0)
             {
-                return "the account your friend is not registered";
+                throw new Exception("the account your friend is not registered.");
             }
 
             var isHave = (from prg in applicationDbContext.permessionsGroups
                                 where prg.PermessionsGroupSharedId == idUserFriend[0] && prg.GroupId == IdGroup
-                          select prg.PermessionsGroupId).ToList();
-            if (isHave.Count() > 0)
+                          select prg.GroupId).Count();
+            if (isHave > 0)
             {
-                return "your friend has permession" + idUserFriend[0];
+                throw new Exception("your friend has permession.");
             }
             applicationDbContext.permessionsGroups.Add(new PermessionsGroup
             {
@@ -159,7 +160,7 @@ namespace NAPApi.Repository
                          ).ToList();
             if(isHas.Count() == 0)
             {
-                return "You are not the owner of this group";
+                throw new Exception("You are not the owner of this group");
             }
             var isFriendAdd = (from prg in applicationDbContext.permessionsGroups
                                where prg.PermessionsGroupSharedId == IdUserFriend && prg.GroupId == IdGroup
@@ -167,21 +168,21 @@ namespace NAPApi.Repository
                                ).ToList();
             if (isFriendAdd.Count() == 0)
             {
-                return "this name has not any permission";
+                throw new Exception("this name has not any permission");
             }
             var isAdmin = (from us in applicationDbContext.users
                            where us.Id == IdUserFriend && us.RoleId==2                           
                            select us.RoleId ).ToList();
             if(isAdmin.Count() >0)
             {
-                return "Can't romve admin";
+                throw new Exception("Can't romve admin");
             }
             var prGroup = (from prg in applicationDbContext.permessionsGroups 
                                         where prg.PermessionsGroupId == isFriendAdd.First() 
                                         select prg).SingleOrDefault();
             if(prGroup == null)
             {
-                return "this name has not any permission";
+                throw new Exception("this name has not any permission");
             }
             applicationDbContext.permessionsGroups.Remove(prGroup);
             applicationDbContext.SaveChanges();
@@ -197,7 +198,9 @@ namespace NAPApi.Repository
                              on gr.GroupId equals grp.GroupId
                          join us in applicationDbContext.users
                             on grp.PermessionsGroupSharedId equals us.Id
-                         where grp.GroupId == IdGroup && gr.UserId == IdUser
+                         where grp.GroupId == IdGroup && 
+                                gr.UserId == IdUser &&
+                                IdUser != grp.PermessionsGroupSharedId
                          select new
                          {
                              Id = us.Id,

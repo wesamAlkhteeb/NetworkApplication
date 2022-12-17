@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using NAPApi.Help;
 using NAPApi.Model;
 using NAPApi.Repository;
-using System.Net;
 
 namespace NAPApi.Controllers
 {
@@ -19,52 +18,82 @@ namespace NAPApi.Controllers
         {
             this.fileRepository = fileRepository;
         }
-        
 
-        [HttpGet("get_files/{idgroup}/{page}")]
-        public List<FilesModel> GetGroupFiles([FromHeader] string Authorization, int idGroup , int page)
+        [HttpGet("get_files")]
+        public IActionResult GetGroupFiles([FromHeader] string Authorization, int idGroup, int page)
         {
 
             if (!ModelState.IsValid)
             {
-                return new List<FilesModel>();
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            List<FilesModel> files = fileRepository.GetFiles(
-                SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]),
-                idGroup,
-                   SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]) , page, Request.GetDisplayUrl().Split("/")[2]
+            try
+            {
+                List<FilesModel> files = fileRepository.GetFiles(
+                    SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]),
+                    idGroup,
+                    SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]),
+                    page,
+                    Request.GetDisplayUrl().Split("/")[2]
                 );
-            return files;
-
+                // getfile ( token , idgroup , role )
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title","fetch is success" },
+                    {"data" ,files}
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpGet("get_files_without_group/{page}")]
-        public List<FilesModel> GetFiles([FromHeader] string Authorization, int page)
+        public IActionResult GetFiles([FromHeader] string Authorization, int page)
         {
-
             if (!ModelState.IsValid)
             {
-                return new List<FilesModel>();
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            List<FilesModel> files = fileRepository.GetFilesWithoutGroup(
+            try
+            {
+                List<FilesModel> files = fileRepository.GetFilesWithoutGroup(
                 SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]),
-                   SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]), page,Request.GetDisplayUrl().Split("/")[2]
+                   SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]), page, Request.GetDisplayUrl().Split("/")[2]
                 );
-            return files;
-
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title","fetch is success" },
+                    {"data" ,files}
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
 
         [HttpPost("add_file")]
         public async Task<IActionResult> AddFiles([FromHeader] string Authorization, [FromForm] FilesRequestAddModel filesRequestAddModel)
         {
-
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            string result = await fileRepository.AddFile(filesRequestAddModel, SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]));
-            return Ok(result);
+            try
+            {
+                string result = await fileRepository.AddFile(filesRequestAddModel, SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]));
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title",result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpDelete("delete_file")]
@@ -72,29 +101,65 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            return Ok(fileRepository.DeleteFiles(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , filesRequestAddModel.FileId));
+            try
+            {
+                var result = fileRepository.DeleteFiles(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), filesRequestAddModel.FileId);
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title",result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
+
         }
 
         [HttpPut("update_file")]
         public async Task<IActionResult> UpdateFiles([FromHeader] string Authorization, [FromForm] FilesRequestUpdateModel filesRequestUpdateModel)
         {
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            return Ok(await fileRepository.UpdateFile(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), filesRequestUpdateModel));
+            try
+            {
+                var result = await fileRepository.UpdateFile(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), filesRequestUpdateModel);
+                return Ok(new Dictionary<string, object>()
+                {
+                    { "title", result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpPost("Reservation_File")]
         public IActionResult ReservationFile([FromHeader] string Authorization, [FromBody] FilesReservationModel filesReservation)
         {
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            return Ok(fileRepository.ReservationFile(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , filesReservation) );
+            try
+            {
+                var result = fileRepository.ReservationFile(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), filesReservation);
+                return Ok(new Dictionary<string, object>()
+                {
+                    { "title", result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpPost("Reservation_Files")]
@@ -103,9 +168,20 @@ namespace NAPApi.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            return Ok(await fileRepository.ReservationFiles(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), filesReservations));
+            try
+            {
+                var result = await fileRepository.ReservationFiles(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), filesReservations);
+                return Ok(new Dictionary<string, object>()
+                {
+                    { "title", result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
     }
 }

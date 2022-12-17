@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using NAPApi.Context;
 using NAPApi.Help;
+using NAPApi.Middlewares;
 using NAPApi.Repository;
 using System.Net;
 using System.Text;
@@ -64,7 +64,6 @@ builder.Services.AddAuthentication(option => {
 
 
 
-
 var app = builder.Build();
 
 
@@ -83,15 +82,24 @@ app.UseExceptionHandler(
             });
     });
 
+
+
 // Configure the HTTP request pipeline.
 /*if (app.Environment.IsDevelopment())
 {*/
     app.UseSwagger();
     app.UseSwaggerUI();
+
 //}
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+
 
 app.UseHttpsRedirection();
 
+app.UseRRLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -25,10 +25,21 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string , object>() { {"title", ModelState } });
             }
-            var result = groupRepository.FetchGroups(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]),page , SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]));
-            return Ok(result);
+            try
+            {
+                var result = groupRepository.FetchGroups(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), page, SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]));
+                return Ok(new Dictionary<string,object>()
+                {
+                    {"title","fetch is success" },
+                    {"data" ,result}
+                });
+            }
+            catch(Exception ex) {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
+            
         }
 
         [HttpPost("addGroup")]
@@ -36,14 +47,24 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            var result = groupRepository.addGroup(
-                        groupModel.GroupName, 
+            try
+            {
+                var result = groupRepository.addGroup(
+                        groupModel.GroupName,
                         SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]),
                         SecurityHelper.getInstance().getRoleToken(Authorization.Split(" ")[1]));
-            
-            return Ok(result);
+
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title",result }
+                });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpDelete("DeleteGroup")]
@@ -51,10 +72,21 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            var result = groupRepository.deleteGroup(groupModel.GroupId, SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]));
-            return Ok(result);
+            try
+            {
+                var result = groupRepository.deleteGroup(groupModel.GroupId, SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]));
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title",result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
+            
         }
 
 
@@ -64,10 +96,20 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            var result = groupRepository.GrantPermission(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , Model.IdGroup , Model.UserName);
-            return Ok(result);
+            try
+            {
+                var result = groupRepository.GrantPermission(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), Model.IdGroup, Model.UserName); 
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title",result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpPost("NoGrantPermissionGroup")]
@@ -75,20 +117,43 @@ namespace NAPApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            var result = groupRepository.NoGrantPermission(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , Model.IDGroup , Model.IdUserFriend);
-            return Ok(result);
+            try
+            {
+                var result = groupRepository.NoGrantPermission(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), Model.IDGroup, Model.IdUserFriend);
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title",result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
         }
 
         [HttpGet("showUsersPermission")]
-        public List<UserPermessionGroup> FetchUserPermission([FromHeader] string Authorization , int IDGroup , int Page)
+        public IActionResult FetchUserPermission([FromHeader] string Authorization , int IDGroup , int Page)
         {
             if (!ModelState.IsValid)
             {
-                return new List<UserPermessionGroup>();
+                return BadRequest(new Dictionary<string, object>() { { "title", ModelState } });
             }
-            return groupRepository.FetchUserPermession(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]) , IDGroup , Page);
+            try
+            {
+                var result = groupRepository.FetchUserPermession(SecurityHelper.getInstance().getIdToken(Authorization.Split(" ")[1]), IDGroup, Page);
+                return Ok(new Dictionary<string, object>()
+                {
+                    {"title","Fetch successfully"},
+                    {"data",result }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Dictionary<string, object>() { { "title", ex.Message } });
+            }
+            
         }
 
     }

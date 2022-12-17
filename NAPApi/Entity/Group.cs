@@ -7,6 +7,7 @@ namespace NAPApi.Entity
         public int GroupId { get; set; }
         [MaxLength(30)]
         public string GroupName { get; set; }
+        
         //navigator
         public int UserId { get; set; }
         public User User { get; set; }

@@ -1,0 +1,109 @@
+/Account/register//Account/register
+Request Data: {
+  "username": "string",
+  "password": "string",
+  "email": "string"
+}
+StatusCode: 400
+response Data: {"title":"Error in form Email"}
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "Admin@gmail.com",
+  "password": "Admin@204"
+}
+StatusCode: 200
+response Data: {"message":"login success","username":"Admin","email":"Admin@gmail.com","isAuthentication":true,"roles":"ADMIN","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcHJpbWFyeXNpZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZG1pbkBnbWFpbC5jb20iLCJleHAiOjE2NzE3MDQxOTUsImlzcyI6IlNlY3VyZUFwaSIsImF1ZCI6IlNlY3VyZUFwaSJ9.dzzlCucnCtpzRPUcfXVPKMUE7RnnBtYfk7QtMDNAdEA","expiresOn":"2022-12-22T12:16:35"}
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "Admin@gmail.com",
+  "password": "Admin@204"
+}
+StatusCode: 200
+response Data: {"message":"login success","username":"Admin","email":"Admin@gmail.com","isAuthentication":true,"roles":"ADMIN","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcHJpbWFyeXNpZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZG1pbkBnbWFpbC5jb20iLCJleHAiOjE2NzE3MDQ0NTcsImlzcyI6IlNlY3VyZUFwaSIsImF1ZCI6IlNlY3VyZUFwaSJ9.UWmBKz8TLdkgsNOr_FMftUhdRkoCG2Z0Ry9M48JQlIU","expiresOn":"2022-12-22T12:20:57"}
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "Admin@gmail.com",
+  "password": "Admin@204"
+}
+StatusCode: 200
+response Data: {"message":"login success","username":"Admin","email":"Admin@gmail.com","isAuthentication":true,"roles":"ADMIN","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcHJpbWFyeXNpZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZG1pbkBnbWFpbC5jb20iLCJleHAiOjE2NzE3MDgwODksImlzcyI6IlNlY3VyZUFwaSIsImF1ZCI6IlNlY3VyZUFwaSJ9.PtBK2OmayByEBvJBEWNR-63DG6enDc31cDwJM0nVv1I","expiresOn":"2022-12-22T13:21:29"}
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "Admin@gmail.com",
+  "password": "Admin@204"
+}
+StatusCode: 200
+response Data: {"message":"login success","username":"Admin","email":"Admin@gmail.com","isAuthentication":true,"roles":"ADMIN","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcHJpbWFyeXNpZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZG1pbkBnbWFpbC5jb20iLCJleHAiOjE2NzE3MjM0MzMsImlzcyI6IlNlY3VyZUFwaSIsImF1ZCI6IlNlY3VyZUFwaSJ9.Pn_8szMVlyt5In_Wl3MyBFs-qtnrdjRk1BMc7e9fkRo","expiresOn":"2022-12-22T17:37:13"}
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "Admin@gmail.com",
+  "password": "Admin@204"
+}
+StatusCode: 200
+response Data: {"message":"login success","username":"Admin","email":"Admin@gmail.com","isAuthentication":true,"roles":"ADMIN","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcHJpbWFyeXNpZCI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZG1pbkBnbWFpbC5jb20iLCJleHAiOjE2NzE3MjM1MjcsImlzcyI6IlNlY3VyZUFwaSIsImF1ZCI6IlNlY3VyZUFwaSJ9.vJZFxr8u8gdal9DI2vRDnrlsolhABu-GGfCjvUS6Ieg","expiresOn":"2022-12-22T17:38:47"}
+		****
+ 
+/Account/hi//Account/hi
+Request Data: 
+StatusCode: 200
+response Data: 
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "string",
+  "password": "string"
+}
+StatusCode: 400
+response Data: {"title":"email or password is incurrect"}
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "string",
+  "password": "string"
+}
+StatusCode: 400
+response Data: {"title":"email or password is incurrect"}
+		****
+ 
+/Account/hi//Account/hi
+Request Data: 
+StatusCode: 200
+response Data: 
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "string",
+  "password": "string"
+}
+StatusCode: 400
+response Data: {"title":"email or password is incurrect"}
+		****
+ 
+/Account/hi//Account/hi
+Request Data: 
+StatusCode: 200
+response Data: 
+		****
+ 
+/Account/login//Account/login
+Request Data: {
+  "email": "string",
+  "password": "string"
+}
+StatusCode: 400
+response Data: {"title":"email or password is incurrect"}
+		****
+ 

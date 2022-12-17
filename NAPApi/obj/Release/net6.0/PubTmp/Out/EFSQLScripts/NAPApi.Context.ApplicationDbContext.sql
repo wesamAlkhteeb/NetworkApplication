@@ -11,7 +11,7 @@ GO
 BEGIN TRANSACTION;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [roles] (
         [Id] int NOT NULL IDENTITY,
@@ -21,7 +21,7 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [users] (
         [Id] int NOT NULL IDENTITY,
@@ -36,7 +36,7 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [groups] (
         [GroupId] int NOT NULL IDENTITY,
@@ -48,7 +48,7 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [loggings] (
         [LoggingId] int NOT NULL IDENTITY,
@@ -60,7 +60,7 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [files] (
         [FilesId] int NOT NULL IDENTITY,
@@ -75,7 +75,7 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [permessionsGroups] (
         [PermessionsGroupId] int NOT NULL IDENTITY,
@@ -87,13 +87,12 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE TABLE [reports] (
         [ReportId] int NOT NULL IDENTITY,
-        [ReportLockDate] datetime2 NOT NULL,
-        [ReportUnLockDate] datetime2 NOT NULL,
-        [ReportUpdateDate] datetime2 NOT NULL,
+        [State] nvarchar(6) NOT NULL,
+        [Date] datetime2 NOT NULL,
         [FileId] int NOT NULL,
         [UserId] int NOT NULL,
         CONSTRAINT [PK_reports] PRIMARY KEY ([ReportId]),
@@ -103,52 +102,71 @@ BEGIN
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_files_GroupId] ON [files] ([GroupId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_groups_UserId] ON [groups] ([UserId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_loggings_UserId] ON [loggings] ([UserId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_permessionsGroups_GroupId] ON [permessionsGroups] ([GroupId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_reports_FileId] ON [reports] ([FileId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_reports_UserId] ON [reports] ([UserId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     CREATE INDEX [IX_users_RoleId] ON [users] ([RoleId]);
 END;
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221126202257_create-database')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221205184745_create_database')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20221126202257_create-database', N'7.0.0');
+    VALUES (N'20221205184745_create_database', N'7.0.0');
+END;
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221207115630_add_concurrency')
+BEGIN
+    ALTER TABLE [files] ADD [Version] rowversion NOT NULL;
+END;
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20221207115630_add_concurrency')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20221207115630_add_concurrency', N'7.0.0');
 END;
 GO
 
